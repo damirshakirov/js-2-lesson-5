@@ -30,7 +30,6 @@ Cart.prototype.setEvents = function () {
 
 Cart.prototype.onAdd = function (event) {
   var id = parseInt($(event.currentTarget).attr('data-id'));
-  console.log('Добавление товара в корзину');
   if (id) {
     this.request(Cart.urls.add, 'id=' + id);
   }
@@ -38,7 +37,7 @@ Cart.prototype.onAdd = function (event) {
 
 Cart.prototype.onRemove = function (event) {
   var id = parseInt($(event.currentTarget).attr('data-id'));
-  console.log('Удаление товара из корзины');
+
   if (id) {
     this.request(Cart.urls.remove, 'id=' + id);
   }
@@ -47,8 +46,9 @@ Cart.prototype.onRemove = function (event) {
 
 // метод очищения корзины
 Cart.prototype.onClear = function () {
-  console.log('Очистка корзины');
   this.request(Cart.urls.clear, '');
+  this.calculate();
+  this.render();
 }
 
 // написать метод render, который выводит html
@@ -83,7 +83,7 @@ Cart.prototype.getProduct = function (id) {
 
 Cart.prototype.removeProduct = function (product) {
   // @todo: реализация метода
-  var item = this.getProduct(product.id);
+  var item = this.getProduct(product);
 
   if (item) {
     --item.count;
